@@ -61,8 +61,9 @@ const preview: Preview = {
   initialGlobals: {
     // ...rest of initial globals config
     azureDevops: {
-      org: "devopsOrgName",
-      project: "devopsProjectName"
+      org: "devopsOrgName", // Azure Devops organisation name
+      project: "devopsProjectName", //Project inside of Azure devops
+      key: import.meta.env.AZURE_DEVOPS || process?.env?.AZURE_DEVOPS //Environment variable containing Azure Devops security key
     }
   },
 };
@@ -91,6 +92,8 @@ export default meta;
 
 ## Releases
 
+- **0.0.2** - Bug fixes.
+  - Moving location where key is set in globals
 - **0.0.1** - Initial public release.
   - Read only work items from Azure Devops.
   - Configure which fields you want to display in your work items.

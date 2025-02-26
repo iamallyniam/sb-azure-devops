@@ -18,19 +18,8 @@ import { withRoundTrip } from "./withRoundTrip";
  * and update the entry prop in tsup.config.ts to use "src/preview.tsx",
  */
 
- let azureKey:string = "";
- if(typeof process !== "undefined"){
-   azureKey = process?.env?.AZURE_DEVOPS || process?.env?.VITE_AZURE_DEVOPS || "";
- }else{
-  // @ts-ignore
-   azureKey = import.meta.env.AZURE_DEVOPS  || import.meta.env.VITE_AZURE_DEVOPS;
- }
-
 const preview: ProjectAnnotations<Renderer> = {
   decorators: [withGlobals, withRoundTrip],
-  initialGlobals: {
-    azureKey
-  },
 };
 
 export default preview;

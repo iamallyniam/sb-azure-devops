@@ -68,7 +68,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 		const azureDevopsConfig = globals.azureDevops ? globals.azureDevops : null;
 		setAzureDevopsConfigOrg(azureDevopsConfig?.org ? azureDevopsConfig.org : "");
 		setAzureDevopsConfigProject(azureDevopsConfig?.project ? azureDevopsConfig.project : "");
-		setAzureDevopsConfigKey(globals.azureKey ? globals.azureKey : "");
+		setAzureDevopsConfigKey(azureDevopsConfig?.key ? azureDevopsConfig.key : "");
 	}, [globals])
 
 	const azureDevopsRequest = useCallback((requestStr:string, method:string = "GET", body:string = "", contentRange:string = "", apiVersion = "api-version=6.0"):Promise<ApiResp> => {
@@ -142,11 +142,11 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 					return acc;
 				}, {});
 				
-				if(fieldDefs.length === 0 || workItemDefs.length === 0){
+				if((fieldDefs?.length === 0 || workItemDefs?.length === 0) || (!fieldDefs || !workItemDefs)){
 					const promiseReqs = [
 						getWorkItemIcons()
 					]
-					if(fieldDefs.length === 0){
+					if(fieldDefs?.length === 0 || !fieldDefs){
 						promiseReqs.push(getFieldTypes())
 					}
 					Promise.all(promiseReqs).then(resps => {

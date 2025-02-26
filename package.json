@@ -1,6 +1,6 @@
 {
   "name": "sb-azure-devops",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Link stories to Azure Devops work items",
   "keywords": [
     "storybook-addons",
