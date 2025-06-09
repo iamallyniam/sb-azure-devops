@@ -92,6 +92,7 @@ export default meta;
 
 ## Releases
 
+- **1.0.0** - Support for Storybook 9
 - **0.0.2** - Bug fixes.
   - Moving location where key is set in globals
 - **0.0.1** - Initial public release.

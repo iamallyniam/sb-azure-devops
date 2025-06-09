@@ -1,6 +1,6 @@
 {
   "name": "sb-azure-devops",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Link stories to Azure Devops work items",
   "keywords": [
     "storybook-addons",
@@ -46,17 +46,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@storybook/icons": "^1.2.10",
+    "@storybook/icons": "^1.4.0",
     "azure-devops-node-api": "^14.1.0"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/addon-interactions": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/addon-links": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/blocks": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/react": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/react-vite": "0.0.0-pr-26654-sha-49d01553",
-    "@storybook/test": "0.0.0-pr-26654-sha-49d01553",
+    "@storybook/addon-docs": "^9.0.6",
+    "@storybook/addon-links": "9.0.6",
+    "@storybook/react-vite": "9.0.6",
     "@types/node": "^18.15.0",
     "@types/react": "^18.2.65",
     "@types/react-dom": "^18.2.21",
@@ -69,17 +65,17 @@
     "prompts": "^2.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "0.0.0-pr-26654-sha-49d01553",
+    "storybook": "9.0.6",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "zx": "^7.2.3"
   },
   "peerDependencies": {
-    "storybook": "^8.3.0 || 0.0.0-pr-26654-sha-49d01553"
+    "storybook": "^9.0.6"
   },
   "overrides": {
-    "storybook": "0.0.0-pr-26654-sha-49d01553"
+    "storybook": "$storybook"
   },
   "publishConfig": {
     "access": "public"
