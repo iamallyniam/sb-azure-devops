@@ -26,7 +26,8 @@ const Messages:MessageType = {
 		"panelSave" : "Save visible fields",
 		"panelReset" : "Reset to last saved configuration",
 		"panelSuccess" : "Visible fields have been updated",
-		"panelEmpty" : "Fieldsets not saved to local storage yet. Add at least on Azure Devops work item to a story and view before configuring the fields to display here."
+		"panelEmpty" : "Fieldsets not saved to local storage yet. Add at least on Azure Devops work item to a story and view before configuring the fields to display here.",
+		"errorServerReqDenied" : "Request was denied, please check the Azure Devops security key is valid for AZURE_DEVOPS environement variable, restart the command line/terminal and try again."
 	}
 };
 
