@@ -5,39 +5,40 @@ import { ApiResp } from "src/models";
 const fetchJson = (req:string, sendObj:RequestInit, lang:string):Promise<Object> => {
 	return new Promise((resolve, reject) => {
 		fetch(req, sendObj).then(resp => {
-			resp.json().then(data => {
-				if(resp.status < 203){
+			if(resp.status < 203){
+				resp.json().then(data => {
 					resolve(data);
-				}else{
-					let statusMessage = errorMessage(lang, ["errorServerResp"]);
-					switch(resp.status){
-						case 203 :
-							statusMessage =  errorMessage(lang, ["errorServerRespPermission"]);
-						break;
-						case 500 :
-							statusMessage = errorMessage(lang, ["errorServerRespFail"]);
-						break;
-						case 404 :
-							statusMessage = errorMessage(lang, ["errorServerRespNotFound"]);
-						break;
-					}
-					if(data.message){
-						statusMessage += `. ${data.message}`;
-					}
-					const errorObj:ApiResp = {
-						message : statusMessage,
-						status : resp.status
-					};
-					if(resp.status < 400){
-						if(resp.url){
-							errorObj.url = resp.url;
-						}
-					}
-					reject(errorObj);
+				}).catch(err => reject(err));
+			}else{
+				let statusMessage = errorMessage(lang, ["errorServerResp"]);
+				switch(resp.status){
+					case 203 :
+						statusMessage =  errorMessage(lang, ["errorServerRespPermission"]);
+					break;
+					case 500 :
+						statusMessage = errorMessage(lang, ["errorServerRespFail"]);
+					break;
+					case 401 :
+						statusMessage = errorMessage(lang, ["errorServerReqDenied"]);
+					break;
+					case 404 :
+						statusMessage = errorMessage(lang, ["errorServerRespNotFound"]);
+					break;
 				}
-			}).catch(err => {
-				reject(err);
-			});
+				// if(data.message){
+				// 	statusMessage += `. ${data.message}`;
+				// }
+				const errorObj:ApiResp = {
+					message : statusMessage,
+					status : resp.status
+				};
+				if(resp.status < 400){
+					if(resp.url){
+						errorObj.url = resp.url;
+					}
+				}
+				reject(errorObj);
+			}
 		}).catch(err => {
 			reject(err);
 		});
