@@ -1,12 +1,12 @@
 import React, { SyntheticEvent, useCallback, useEffect, useId, useState } from "react";
-import { addOutlineStyles, clearStyles } from "src/helpers";
-import { useTheme } from "storybook/internal/theming";
+import { addOutlineStyles, clearStyles } from "../helpers";
+import { useTheme } from "storybook/theming";
 import { H2, P } from "storybook/internal/components";
 
 import { ADDON_ID, KEY } from "../constants";
 import { FieldWithVisibility } from "./Panel";
 import { fieldSelectionStyles } from "./workItemStyles";
-import { DEFAULT_LANG, simpleMessage } from "src/messages";
+import { DEFAULT_LANG, simpleMessage } from "../messages";
 
 interface TabProps {
 	active: boolean;
@@ -23,8 +23,8 @@ export const Tab: React.FC<TabProps> = ({ active }, context) => {
 	const getSavedFieldDefs = () => {
 		const savedFieldDefsStr = localStorage.getItem("fieldDefs");
 		try {
-			const savedFieldDefs: FieldWithVisibility[] = JSON.parse(savedFieldDefsStr);
-			return savedFieldDefs;
+			const savedFieldDefs: FieldWithVisibility[] = JSON.parse(savedFieldDefsStr ?? "[]");
+			return savedFieldDefs ?? [];
 		} catch (e) {
 			localStorage.removeItem("fieldDefs");
 			return [];
@@ -99,7 +99,7 @@ export const Tab: React.FC<TabProps> = ({ active }, context) => {
 													value="true"
 													name={item.referenceName}
 													defaultChecked={item.shouldDisplay}
-													aria-describedby={item.description ? descId : null}
+													aria-describedby={item.description ? descId : undefined}
 													onChange={evt => toggleField(evt.target.name, evt.target.checked)} />
 												<label htmlFor={id} className="fieldDisplayFieldLabel">{item.name}</label>
 												{item.description && (

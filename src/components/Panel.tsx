@@ -1,16 +1,16 @@
 import React, { memo, useCallback, useEffect, useId, useState } from "react";
 import { AddonPanel } from "storybook/internal/components";
-import { useGlobals, useParameter   } from "storybook/internal/manager-api";
-import { useTheme } from "storybook/internal/theming";
+import { useGlobals, useParameter   } from "storybook/manager-api";
+import { useTheme } from "storybook/theming";
 import {workItemStyles} from "./workItemStyles";
 
 import { ADDON_ID, } from "../constants";
 
-import { clearStyles, addOutlineStyles, azureLinkItem} from "src/helpers";
+import { clearStyles, addOutlineStyles, azureLinkItem} from "../helpers";
 import { WorkItem, WorkItemField2, WorkItemIcon, WorkItemType } from "azure-devops-node-api/interfaces/WorkItemTrackingInterfaces";
 import { devopsReq } from "./ServerRequests";
-import { ApiResp } from "src/models";
-import { DEFAULT_LANG, errorMessage } from "src/messages";
+import { ApiResp } from "../models";
+import { DEFAULT_LANG, errorMessage } from "../messages";
 import { Empty } from "./EmptyState";
 import { SyncIcon } from "@storybook/icons";
 
@@ -44,8 +44,8 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 	const [fieldDefs, setFieldDefs] = useState<FieldWithVisibility[]>(() => {
 		const savedFieldDefsStr = localStorage.getItem("fieldDefs");
 		try{
-			const savedFieldDefs:FieldWithVisibility[] = JSON.parse(savedFieldDefsStr);
-			return savedFieldDefs;
+			const savedFieldDefs:FieldWithVisibility[] = JSON.parse(savedFieldDefsStr ?? "[]");
+			return savedFieldDefs ?? [];
 		}catch(e){
 			localStorage.removeItem("fieldDefs");
 			return [];
@@ -71,8 +71,8 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 		setAzureDevopsConfigKey(azureDevopsConfig?.key ? azureDevopsConfig.key : "");
 	}, [globals])
 
-	const azureDevopsRequest = useCallback((requestStr:string, method:string = "GET", body:string = "", contentRange:string = "", apiVersion = "api-version=6.0"):Promise<ApiResp> => {
-		return devopsReq(azureDevopsConfigKey, azureDevopsConfigOrg, azureDevopsConfigProject, requestStr, method, body, contentRange, apiVersion, userLang);
+	const azureDevopsRequest = useCallback(<T extends ApiResp = ApiResp>(requestStr:string, method:string = "GET", body:string = "", contentRange:string = "", apiVersion = "api-version=6.0"):Promise<T> => {
+		return devopsReq(azureDevopsConfigKey, azureDevopsConfigOrg, azureDevopsConfigProject, requestStr, method, body, contentRange, apiVersion, userLang) as Promise<T>;
 	}, [azureDevopsConfigKey, azureDevopsConfigOrg, azureDevopsConfigProject]);
 
 	interface WorkItemResponse {
@@ -90,7 +90,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 		return new Promise((resolve, reject) => {
 			if(azureIds.length > 0){
 				const requestStr = `wit/workitems?ids=${azureIds.join(",")}&$expand=fields`;
-				azureDevopsRequest(requestStr).then((resp: WorkItemResponse): void => {
+				azureDevopsRequest<WorkItemResponse>(requestStr).then((resp): void => {
 					resolve(resp);
 				}).catch(err => {
 					console.log(err);
@@ -104,7 +104,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 	const getFieldTypes = ():Promise<FieldResponse> => {
 		return new Promise((resolve,reject) => {
 			const requestStr = `wit/fields?$expand=all`;
-			azureDevopsRequest(requestStr, "GET", "", "","api-version=7.1").then((resp: FieldResponse): void => {
+			azureDevopsRequest<FieldResponse>(requestStr, "GET", "", "","api-version=7.1").then((resp): void => {
 				resolve(resp);
 			}).catch(err => {
 				reject(err);
@@ -114,7 +114,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 	const getWorkItemIcons = ():Promise<WorkItemIconResponse> => {
 		return new Promise((resolve,reject) => {
 			const requestStr = `wit/workitemtypes`;
-			azureDevopsRequest(requestStr, "GET", "", "","api-version=7.1").then((resp: WorkItemIconResponse): void => {
+			azureDevopsRequest<WorkItemIconResponse>(requestStr, "GET", "", "","api-version=7.1").then((resp): void => {
 				resolve(resp);
 			}).catch(err => {
 				reject(err);
@@ -136,8 +136,8 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 					const newKey:string = String(item.id);
 					acc[newKey] = {
 						...item,
-						type: String(item.fields["System.WorkItemType"]),
-						title: String(item.fields["System.Title"])
+						type: String(item.fields?.["System.WorkItemType"]),
+						title: String(item.fields?.["System.Title"])
 					};
 					return acc;
 				}, {});
@@ -200,7 +200,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 		const value = props.value;
 		const filedName = props.filedName;
 		let type = "text";
-		let step = null;
+		let step: number | undefined = undefined;
 		let valuePrnt:string = `${value}`;
 		const filedString = String(field.type);
 		switch(filedString){
@@ -287,7 +287,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 							const workItemTypeDetails = workItemDefs.find(workItemDef => workItemTypeType === workItemDef.name);
 							let iconImage = "";
 							if(workItemTypeDetails){
-								iconImage = workItemTypeDetails.icon.url;
+								iconImage = workItemTypeDetails.icon?.url ?? "";
 							}
 							return(
 								<li key={`tab=${i}`} className="tabNavItem">
@@ -307,7 +307,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 					</ul>
 					{Object.keys(workItemFields).map((keyName, i) => {
 						const workItemType:WorkItem & WorkItemDetails = workItemFields[keyName];
-						const workItemProps = workItemType.fields;
+						const workItemProps = workItemType.fields ?? {};
 						
 						return (
 							<div key={`tab-${i}`}className="tabContent" {...{ inert: i !== tabInd ? '' : undefined }}>

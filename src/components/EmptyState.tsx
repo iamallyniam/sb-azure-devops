@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { EmptyTabContent, Link } from 'storybook/internal/components';
-import { styled } from 'storybook/internal/theming';
+import { styled } from 'storybook/theming';
 
 import { DocumentIcon, VideoIcon } from '@storybook/icons';
 
-import { simpleMessage } from 'src/messages';
+import { simpleMessage } from '../messages';
 
 const Links = styled.div(({ theme }) => ({
   display: 'flex',

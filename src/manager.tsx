@@ -1,5 +1,5 @@
 import React from "react";
-import { addons, types } from "storybook/internal/manager-api";
+import { addons, types } from "storybook/manager-api";
 
 import { Panel } from "./components/Panel";
 import { Tab } from "./components/Tab";
@@ -19,13 +19,13 @@ addons.register(ADDON_ID, (api) => {
     type: types.PANEL,
     title: PLUGIN_NAME,
     match: ({ viewMode }) => viewMode === "story",
-    render: ({ active }) => <Panel active={active} />,
+    render: ({ active }) => <Panel active={!!active} />,
   });
 
   // Register a tab
   addons.add(TAB_ID, {
     type: types.TAB,
     title: PLUGIN_NAME,
-    render: ({ active }) => <Tab active={active} />,
+    render: ({ active }) => <Tab active={!!active} />,
   });
 });

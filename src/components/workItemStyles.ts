@@ -1,4 +1,4 @@
-import { Theme } from 'storybook/internal/theming';
+import { Theme } from 'storybook/theming';
 import { dedent } from 'ts-dedent';
 
 const borderColour = "transparent";

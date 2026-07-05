@@ -1,6 +1,6 @@
-import { azureLink } from "src/helpers";
-import { DEFAULT_LANG, errorMessage, simpleMessage } from "src/messages";
-import { ApiResp } from "src/models";
+import { azureLink } from "../helpers";
+import { DEFAULT_LANG, errorMessage, simpleMessage } from "../messages";
+import { ApiResp } from "../models";
 
 const fetchJson = (req:string, sendObj:RequestInit, lang:string):Promise<Object> => {
 	return new Promise((resolve, reject) => {

@@ -1,8 +1,9 @@
 import type { StorybookConfig } from "@storybook/react-vite";
+import { fileURLToPath } from "node:url";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
-  addons: ["@storybook/addon-links", "./local-preset.js", "@storybook/addon-docs"],
+  addons: ["@storybook/addon-links", "./local-preset.cjs", "@storybook/addon-docs"],
 
   framework: {
     name: "@storybook/react-vite",
@@ -23,6 +24,25 @@ const config: StorybookConfig = {
       SB_AZURE_PROJECT: azureDevopsProject,
     }
     return newConfig;
-  }
+  },
+
+  // Workaround for https://github.com/storybookjs/storybook/issues/33537
+  // Storybook's MDX compiler emits absolute `file:///` URLs (via import.meta.resolve),
+  // which Vite's import-analysis cannot resolve (notably on Windows). Convert those
+  // back into filesystem paths so Vite can resolve them normally.
+  viteFinal: async config => {
+    config.plugins = config.plugins ?? [];
+    config.plugins.unshift({
+      name: "fix-mdx-file-url-imports",
+      enforce: "pre",
+      resolveId(source) {
+        if (source.startsWith("file://")) {
+          return fileURLToPath(source);
+        }
+        return null;
+      },
+    });
+    return config;
+  },
 };
 export default config;
