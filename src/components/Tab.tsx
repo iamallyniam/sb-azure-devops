@@ -11,7 +11,7 @@ import { DEFAULT_LANG, simpleMessage } from "../messages";
 interface TabProps {
 	active: boolean;
 }
-export const Tab: React.FC<TabProps> = ({ active }, context) => {
+export const Tab: React.FC<TabProps> = ({ active }) => {
 	const theme = useTheme();
 	
 	if (!active) {
@@ -73,7 +73,7 @@ export const Tab: React.FC<TabProps> = ({ active }, context) => {
 		  return () => {
 			clearStyles(selectorId);
 		  };
-	}, [active, fieldSelectionStyles, context.id]);
+	}, [active, fieldSelectionStyles]);
 
 	const userLang = document?.documentElement?.lang || DEFAULT_LANG;
 

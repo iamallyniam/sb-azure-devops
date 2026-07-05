@@ -20,7 +20,7 @@ interface PanelProps {
 export type FieldWithVisibility = WorkItemField2 & {
 	shouldDisplay:boolean
 };
-export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context) {
+export const Panel: React.FC<PanelProps> = memo(function MyPanel(props: PanelProps) {
 	const theme = useTheme();
 
 	const userLang = document.documentElement.lang || DEFAULT_LANG;
@@ -259,7 +259,7 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 		  return () => {
 			clearStyles(selectorId);
 		  };
-	}, [props.active, workItemStyles, context.id]);
+	}, [props.active, workItemStyles]);
 
 	const [tabInd, setTabInd] = useState<number>(() => 0);
 
@@ -310,7 +310,8 @@ export const Panel: React.FC<PanelProps> = memo(function MyPanel(props, context)
 						const workItemProps = workItemType.fields ?? {};
 						
 						return (
-							<div key={`tab-${i}`}className="tabContent" {...{ inert: i !== tabInd ? '' : undefined }}>
+							// React 19 types `inert` as boolean, but we intentionally emit inert="" so the CSS `.tabContent[inert]` selector matches
+							<div key={`tab-${i}`}className="tabContent" inert={(i !== tabInd ? "" : undefined) as unknown as boolean | undefined}>
 								<h2 className="tabContentTitle">{workItemType.title}</h2>
 								<p className="tabContentLink"><a href={`${azureLinkItem("https", "dev.azure.com", azureDevopsConfigOrg, String(workItemType.id))}`} target="_blank" rel="nofollow noreferrer noopener">View work item in Azure Devops</a></p>
 								{/* <button className="tabContentRefresh">Refresh content</button> */}

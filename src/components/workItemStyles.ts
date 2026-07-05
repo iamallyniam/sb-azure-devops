@@ -185,7 +185,8 @@ export function workItemStyles(selector:string, theme:Theme) {
 	.tabGrid{
 		position: relative;
 		width: 100%;
-		height: auto;
+		height: 100%;
+		overflow: hidden;
 		display: grid;
 		grid-template-columns: auto 1fr;
 		grid-template-rows: 1fr;
@@ -194,7 +195,8 @@ export function workItemStyles(selector:string, theme:Theme) {
 	.tabNav{
 		position: relative;
 		width: auto;
-		height: auto;
+		height: 100%;
+		overflow:auto;
 		display: flex;
 		flex-flow: column nowrap;
 		align-items: start;
@@ -274,7 +276,8 @@ export function workItemStyles(selector:string, theme:Theme) {
 		position:relative;
 		width: calc(100% + 2px);
 		inset-inline-start: -2px;
-		height:auto;
+		height:100%;
+		overflow:auto;
 		display: flex;
 		flex-flow: row wrap;
 		list-style:none;
