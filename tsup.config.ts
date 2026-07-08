@@ -66,7 +66,13 @@ export default defineConfig(async (options) => {
       format: ["esm", "cjs"],
       target: [...BROWSER_TARGET, ...NODE_TARGET],
       platform: "neutral",
-      external: [...globalManagerPackages, ...globalPreviewPackages],
+      external: [
+        ...globalManagerPackages,
+        ...globalPreviewPackages,
+        // Provided by the consuming Storybook; must not be bundled into the addon.
+        "@storybook/addon-docs",
+        "@storybook/addon-docs/blocks",
+      ],
     });
   }
 

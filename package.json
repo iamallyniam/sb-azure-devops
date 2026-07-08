@@ -71,7 +71,13 @@
     "zx": "8.8.5"
   },
   "peerDependencies": {
+    "@storybook/addon-docs": ">=10.0.0",
     "storybook": ">=10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@storybook/addon-docs": {
+      "optional": true
+    }
   },
   "overrides": {
     "storybook": "$storybook"

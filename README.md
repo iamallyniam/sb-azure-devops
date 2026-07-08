@@ -90,8 +90,41 @@ const meta: Meta<typeof Button> = {
 export default meta;
 ```
 
+### Listing work items in docs (MDX)
+
+The addon also exports a `WorkItemsList` React component you can embed in your
+MDX docs pages to render every Azure Devops work item associated with a stories
+file. It reads the same `workItems` parameter from each story and the
+`azureDevops` global for connection details, then fetches each item's title,
+type, state and icon for display (linked back to Azure Devops).
+
+```mdx
+{/* Button.mdx */}
+import { Meta } from '@storybook/addon-docs/blocks';
+import { WorkItemsList } from 'sb-azure-devops';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+<WorkItemsList of={ButtonStories} />
+```
+
+Props:
+
+- `of` (optional) — a reference to a stories file (its `meta`/default export) or
+  a single story. When omitted, work items are collected from every story on the
+  current docs page.
+- `title` (optional) — heading rendered above the list.
+
+> `@storybook/addon-docs` (bundled with `@storybook/addon-essentials`) must be
+> present to use this component.
+
 ## Releases
 
+- **2.0.0** - Support for Storybook 10
+  - Add list of work items to mdx
 - **1.0.0** - Support for Storybook 9
 - **0.0.2** - Bug fixes.
   - Moving location where key is set in globals

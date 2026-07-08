@@ -1,0 +1,19 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { WorkItemsList } from "../index";
+import * as ButtonStories from "./Button.stories";
+
+<Meta of={ButtonStories} />
+
+# Button work items
+
+The component below lists every Azure Devops work item referenced by the
+stories in `Button.stories.ts` (via each story's `workItems` parameter).
+
+<WorkItemsList of={ButtonStories} />
+
+## All work items on this page
+
+Omit the `of` prop to collect work items from every story on the current docs
+page instead of a single stories file.
+
+<WorkItemsList of={ButtonStories} title="Work items for the Button component" />

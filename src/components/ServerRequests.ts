@@ -1,4 +1,4 @@
-import { azureLink } from "../helpers";
+import { azureLink } from "../helpers/links";
 import { DEFAULT_LANG, errorMessage, simpleMessage } from "../messages";
 import { ApiResp } from "../models";
 

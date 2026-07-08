@@ -1,10 +1,7 @@
 import { global } from '@storybook/global';
-export const azureLink = (protocol:string, host:string, azureOrg:string, azureProject:string = "") => {
-    return `${protocol}://${host}/${azureOrg}${azureProject ? "/" + azureProject : ""}`.toLowerCase()
-};
-export const azureLinkItem = (protocol:string, host:string, azureOrg:string, item:string) => {
-    return `${azureLink(protocol, host, azureOrg)}/_workitems/edit/${item}`;
-};
+// Pure URL builders live in ./links so preview/docs code can use them without
+// dragging in the `@storybook/global` import below.
+export { azureLink, azureLinkItem } from './links';
 export const clearStyles = (selector: string | string[]) => {
     const selectors = Array.isArray(selector) ? selector : [selector];
     selectors.forEach(clearStyle);
