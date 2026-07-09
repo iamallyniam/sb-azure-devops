@@ -123,6 +123,7 @@ Props:
 
 ## Releases
 
+- **2.0.1** - Bug fixes
 - **2.0.0** - Support for Storybook 10
   - Add list of work items to mdx
 - **1.0.0** - Support for Storybook 9
